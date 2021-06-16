@@ -1,0 +1,48 @@
+@use "sass:list";
+
+$backgroundColor: #303030;
+$property: 'background-color';
+$colors: rgb(255, 0, 0), rgb(255, 127, 0), rgb(255, 255, 0), rgb(127, 255, 0),
+rgb(0, 255, 0), rgb(0, 255, 127), rgb(0, 255, 255), rgb(0, 127, 255),
+rgb(0, 0, 255), rgb(127, 0, 255), rgb(255, 0, 255), rgb(255, 0, 127);
+@keyframes colorTransition {
+  @each $color in $colors {
+    #{100 / list.length($colors) * ( list.index($colors,$color) - 1 ) }% {
+      #{$property}: $color;
+    }
+    @if list.length($colors) == list.index($colors,$color) {
+      100% {
+        #{$property}: list.nth($colors, 1);
+      }
+    }
+  }
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background: $backgroundColor;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.figure {
+  width: 30vh;
+  max-width: 50vw;
+  height: 30vh;
+  max-height: 50vw;
+}
+
+.transition-circle {
+  border-radius: 50%;
+  animation: colorTransition 12s 0s infinite linear;
+}
